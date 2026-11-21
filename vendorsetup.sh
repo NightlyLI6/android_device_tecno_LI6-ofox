@@ -1,5 +1,5 @@
-export BUILD_USERNAME=KimelaZPrjkt_Andrei0514 
-export BUILD_HOSTNAME=At-Your-Service
+export BUILD_USERNAME=knukima
+export BUILD_HOSTNAME=knukimas-runner
 
 
 #!/bin/bash
@@ -9,12 +9,12 @@ export FOX_AB_DEVICE=1
 export FOX_VIRTUAL_AB_DEVICE=1
 export OF_DEFAULT_KEYMASTER_VERSION=4.1
 export OF_NO_TREBLE_COMPATIBILITY_CHECK=1
-export OF_MAINTAINER="Andreii_0514"
-export FOX_VARIANT="R11.2-A12_andreii0514"
-export OF_FLASHLIGHT_ENABLE=0
+export OF_MAINTAINER="knukima"
+export FOX_VARIANT="R12.0_knukima"
+export OF_FLASHLIGHT_ENABLE=1
 
-export BUILD_USERNAME=XTENSEI_Andreii0514
-export BUILD_HOSTNAME=At-Your-Service
+export BUILD_USERNAME=knukima
+export BUILD_HOSTNAME=knukimas-runner
 
 export FOX_USE_BASH_SHELL=1
 export FOX_USE_NANO_EDITOR=1
@@ -25,7 +25,7 @@ export FOX_ASH_IS_BASH=1
 export OF_ENABLE_LPTOOLS=1
 export FOX_DELETE_MAGISK_ADDON=1
 export FOX_DELETE_AROMAFM=1
-export FOX_ENABLE_APP_MANAGER=1
+export FOX_ENABLE_APP_MANAGER=0
 export OF_SUPPORT_VBMETA_AVB2_PATCHING=1
 
 export FOX_USE_DATA_RECOVERY_FOR_SETTINGS=1
@@ -65,5 +65,3 @@ if [ $RET -ne 0 ];then
 else
     echo "OK: All patched"
 fi
-
-echo "Andriana has touched your build"
