@@ -10,4 +10,5 @@
 - [X] MTP
 - [X] Sideload
 - [X] USB OTG
+- [X] Flashlight
 - [ ] Vibrator

@@ -11,6 +11,7 @@ export OF_NO_TREBLE_COMPATIBILITY_CHECK=1
 export OF_MAINTAINER="knukima"
 export FOX_VARIANT="R12.0_knukima"
 export OF_FLASHLIGHT_ENABLE=1
+export OF_FL_PATH1="/sys/devices/virtual/flashlight_core/flashlight/flashlight_torch"
 
 OF_AVATAR_FILE="$(dirname "$(realpath "${BASH_SOURCE[0]}")")/maintainer.png"
 if [ -f "$OF_AVATAR_FILE" ]; then
@@ -59,12 +60,18 @@ export LC_ALL="C"
 git clone https://android.googlesource.com/platform/external/gflags/ -b android-12.1.0_r4 external/gflags
 
 # Patches
-RET=0
-cd bootable/recovery
-git apply ../../device/transsion/mt6789-common/patches/0001-Change-haptics-activation-file-path.patch > /dev/null 2>&1 || RET=$?
-cd ../../
-if [ $RET -ne 0 ];then
-    echo "ERROR: Patch is not applied! Maybe it's already patched?"
-else
-    echo "OK: All patched"
-fi
+DEVICE_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+apply_recovery_patch() {
+    local patch="$1"
+    if git -C bootable/recovery apply --check "$patch" > /dev/null 2>&1; then
+        git -C bootable/recovery apply "$patch" && echo "OK: applied $(basename "$patch")"
+    elif git -C bootable/recovery apply --reverse --check "$patch" > /dev/null 2>&1; then
+        echo "OK: already applied $(basename "$patch")"
+    else
+        echo "ERROR: cannot apply $(basename "$patch")"
+    fi
+}
+
+apply_recovery_patch "$(pwd)/device/transsion/mt6789-common/patches/0001-Change-haptics-activation-file-path.patch"
+apply_recovery_patch "$DEVICE_DIR/patches/0002-MediaTek-flashlight_core-support.patch"
