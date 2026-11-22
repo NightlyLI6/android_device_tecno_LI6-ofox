@@ -1,8 +1,7 @@
+#!/bin/bash
+
 export BUILD_USERNAME=knukima
 export BUILD_HOSTNAME=knukimas-runner
-
-
-#!/bin/bash
 
 export OF_DISABLE_OTA_MENU=1
 export FOX_AB_DEVICE=1
@@ -13,8 +12,12 @@ export OF_MAINTAINER="knukima"
 export FOX_VARIANT="R12.0_knukima"
 export OF_FLASHLIGHT_ENABLE=1
 
-export BUILD_USERNAME=knukima
-export BUILD_HOSTNAME=knukimas-runner
+OF_AVATAR_FILE="$(dirname "$(realpath "${BASH_SOURCE[0]}")")/maintainer.png"
+if [ -f "$OF_AVATAR_FILE" ]; then
+    export OF_MAINTAINER_AVATAR="$OF_AVATAR_FILE"
+else
+    echo "-- warning: $OF_AVATAR_FILE not found, avatar will not be shown"
+fi
 
 export FOX_USE_BASH_SHELL=1
 export FOX_USE_NANO_EDITOR=1
