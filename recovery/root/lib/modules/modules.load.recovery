@@ -209,5 +209,3 @@ tkv.ko
 tkv_recovery.ko
 sdcard_debug.ko
 thd.ko
-ocp81375.ko
-flashlight.ko
