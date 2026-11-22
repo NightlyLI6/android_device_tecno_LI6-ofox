@@ -11,4 +11,4 @@
 - [X] Sideload
 - [X] USB OTG
 - [X] Flashlight
-- [ ] Vibrator
+- [X] Vibrator
