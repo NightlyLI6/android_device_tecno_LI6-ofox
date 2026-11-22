@@ -1,11 +1,11 @@
 --- a/minuitwrp/events.cpp
 +++ b/minuitwrp/events.cpp
-@@ -64,3 +64,5 @@
+@@ -65,2 +65,4 @@
  #define LEDS_HAPTICS_ACTIVATE_FILE	"/sys/class/leds/vibrator/activate"
 +#define LEDS_SINGLE_HAPTICS_DURATION_FILE	"/sys/class/leds/vibrator_single/duration"
 +#define LEDS_SINGLE_HAPTICS_ACTIVATE_FILE	"/sys/class/leds/vibrator_single/activate"
  
-@@ -184,5 +186,9 @@
+@@ -184,4 +186,8 @@
          write_to_file(LEDS_HAPTICS_ACTIVATE_FILE, "1");
 -    } else
 +    } else if (std::ifstream(LEDS_SINGLE_HAPTICS_DURATION_FILE).good()) {
