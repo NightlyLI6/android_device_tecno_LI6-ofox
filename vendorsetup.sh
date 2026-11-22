@@ -13,11 +13,12 @@ export FOX_VARIANT="R12.0_knukima"
 export OF_FLASHLIGHT_ENABLE=1
 export OF_FL_PATH1="/sys/devices/virtual/flashlight_core/flashlight/flashlight_torch"
 
-OF_AVATAR_FILE="$(dirname "$(realpath "${BASH_SOURCE[0]}")")/maintainer.png"
-if [ -f "$OF_AVATAR_FILE" ]; then
-    export OF_MAINTAINER_AVATAR="$OF_AVATAR_FILE"
+AVATAR_SRC="$(dirname "$(realpath "${BASH_SOURCE[0]}")")/maintainer.png"
+AVATAR_DST="bootable/recovery/gui/theme/portrait_hdpi/images/Default/About/maintainer.png"
+if [ -f "$AVATAR_SRC" ] && [ -f "$AVATAR_DST" ]; then
+    cp -f "$AVATAR_SRC" "$AVATAR_DST" && echo "OK: maintainer avatar replaced"
 else
-    echo "-- warning: $OF_AVATAR_FILE not found, avatar will not be shown"
+    echo "-- warning: avatar not replaced (src: $AVATAR_SRC, dst: $AVATAR_DST)"
 fi
 
 export FOX_USE_BASH_SHELL=1
