@@ -13,11 +13,12 @@ export FOX_VARIANT="R12.0_knukima"
 export OF_FLASHLIGHT_ENABLE=1
 export OF_FL_PATH1="/sys/devices/virtual/flashlight_core/flashlight/flashlight_torch"
 
-OF_AVATAR_FILE="$(dirname "$(realpath "${BASH_SOURCE[0]}")")/maintainer.png"
-if [ -f "$OF_AVATAR_FILE" ]; then
-    export OF_MAINTAINER_AVATAR="$OF_AVATAR_FILE"
+AVATAR_SRC="$(dirname "$(realpath "${BASH_SOURCE[0]}")")/maintainer.png"
+AVATAR_DST="bootable/recovery/gui/theme/portrait_hdpi/images/Default/About/maintainer.png"
+if [ -f "$AVATAR_SRC" ] && [ -f "$AVATAR_DST" ]; then
+    cp -f "$AVATAR_SRC" "$AVATAR_DST" && echo "OK: maintainer avatar replaced"
 else
-    echo "-- warning: $OF_AVATAR_FILE not found, avatar will not be shown"
+    echo "-- warning: avatar not replaced (src: $AVATAR_SRC, dst: $AVATAR_DST)"
 fi
 
 export FOX_USE_BASH_SHELL=1
@@ -63,15 +64,20 @@ git clone https://android.googlesource.com/platform/external/gflags/ -b android-
 DEVICE_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 apply_recovery_patch() {
-    local patch="$1"
-    if git -C bootable/recovery apply --check "$patch" > /dev/null 2>&1; then
-        git -C bootable/recovery apply "$patch" && echo "OK: applied $(basename "$patch")"
-    elif git -C bootable/recovery apply --reverse --check "$patch" > /dev/null 2>&1; then
+    local patch="$1" err
+    if [ ! -f "$patch" ]; then
+        echo "ERROR: patch file not found: $patch"
+        return 1
+    fi
+    if err=$(git -C bootable/recovery apply --ignore-whitespace --check "$patch" 2>&1); then
+        git -C bootable/recovery apply --ignore-whitespace "$patch" && echo "OK: applied $(basename "$patch")"
+    elif git -C bootable/recovery apply --ignore-whitespace --reverse --check "$patch" > /dev/null 2>&1; then
         echo "OK: already applied $(basename "$patch")"
     else
-        echo "ERROR: cannot apply $(basename "$patch")"
+        echo "ERROR: cannot apply $(basename "$patch"):"
+        echo "$err"
     fi
 }
 
-apply_recovery_patch "$(pwd)/device/transsion/mt6789-common/patches/0001-Change-haptics-activation-file-path.patch"
+apply_recovery_patch "$DEVICE_DIR/patches/0003-vibrator_single-haptics.patch"
 apply_recovery_patch "$DEVICE_DIR/patches/0002-MediaTek-flashlight_core-support.patch"
