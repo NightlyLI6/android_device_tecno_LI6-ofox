@@ -53,7 +53,7 @@ namespace bootable {
 static bool ufs_set_active_boot_part(int boot)
 {
     struct ufs_ioctl_query_data idata;
-    unsigned char buf[1];
+    __u32 val;                       /* bBootLunEn is a 4-byte attribute for MTK UFS */
     int fd, ret = true;
 
     fd = open("/dev/block/sdc", O_RDWR);
@@ -62,13 +62,14 @@ static bool ufs_set_active_boot_part(int boot)
         return false;
     }
 
-    buf[0] = boot;           /* 1: BootLU A, 2: BootLU B */
+    val = boot;                      /* 1: BootLU A, 2: BootLU B */
 
+    memset(&idata, 0, sizeof(idata));
     idata.opcode = UPIU_QUERY_OPCODE_WRITE_ATTR;
     idata.idn = QUERY_ATTR_IDN_BOOT_LUN_EN;
     idata.idx = 0;
-    idata.buf_ptr = &buf[0];
-    idata.buf_byte = 1;
+    idata.buf_ptr = (__u8 *)&val;
+    idata.buf_byte = sizeof(val);
 
     if (ioctl(fd, UFS_IOCTL_QUERY, &idata) < 0) {
       LOG(ERROR) << "ufs_set boot_part fail";
