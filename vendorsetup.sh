@@ -10,6 +10,7 @@ export OF_DEFAULT_KEYMASTER_VERSION=4.1
 export OF_NO_TREBLE_COMPATIBILITY_CHECK=1
 export OF_MAINTAINER="knukima"
 export FOX_VARIANT="R12.0_knukima"
+export FOX_MAINTAINER_PATCH_VERSION="1"
 export OF_FLASHLIGHT_ENABLE=1
 export OF_FL_PATH1="/sys/devices/virtual/flashlight_core/flashlight/flashlight_torch"
 
