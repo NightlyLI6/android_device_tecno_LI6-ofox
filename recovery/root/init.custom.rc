@@ -1,20 +1,16 @@
- on boot
- #Added Manual For Trustonic
+on boot
+    # Added Manual For Trustonic
     mkdir /mnt/vendor/persist
     mount ext4 /dev/block/by-name/persist /mnt/vendor/persist rw
+
+    insmod /lib/modules/soc_temp_lvts.ko
+    insmod /lib/modules/flashlight.ko
+    insmod /lib/modules/ocp81375.ko
+
+    start otg
 
 service otg /system/bin/sh /system/etc/otg.sh
     user root
     group root
     seclabel u:r:recovery:s0
     disabled
-
-service flashlight /system/bin/sh /system/etc/flashlight.sh
-    user root
-    group root
-    seclabel u:r:recovery:s0
-    disabled
-
-on boot
-    start otg
-    start flashlight
